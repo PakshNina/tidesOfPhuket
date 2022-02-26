@@ -8,6 +8,11 @@ services:
     hostname: redis
     expose:
       - 6379
+    environment:
+      WORLD_TIDE_REDIS_ADDR: ${WORLD_TIDE_REDIS_ADDR}
+      WORLD_TIDE_URL: ${WORLD_TIDE_URL}
+      WORLD_TIDE_API_KEY: ${WORLD_TIDE_API_KEY}
+      WORLD_TIDE_TELEGRAM_TOKEN: ${WORLD_TIDE_TELEGRAM_TOKEN}
 
   go:
     build:
