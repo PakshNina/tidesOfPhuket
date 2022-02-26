@@ -18,4 +18,3 @@ services:
       - ./bin:/app
     depends_on:
       - redis
-    env_file: .env
