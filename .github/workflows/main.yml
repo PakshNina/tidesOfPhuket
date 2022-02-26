@@ -26,7 +26,6 @@ jobs:
       - uses: actions/checkout@main
 
       # Runs a set of commands using the runners shell
-      if: github.ref == 'refs/heads/main'
       - name: Run a multi-line script
         env:
           WORLD_TIDE_API_KEY: ${{ secrets.WORLD_TIDE_API_KEY }}
