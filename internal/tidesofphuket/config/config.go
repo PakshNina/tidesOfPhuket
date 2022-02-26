@@ -1,6 +1,9 @@
 package config
 
-import "tidesOfPhuket/internal/tools"
+import (
+	"gopkg.in/errgo.v2/fmt/errors"
+	"tidesOfPhuket/internal/tools"
+)
 
 
 type Config struct {
@@ -18,5 +21,8 @@ func NewTidesOfPhuketConfig() (*Config, error) {
 	tools.EnvToString(&cfg.TelegramToken, "WORLD_TIDE_TELEGRAM_TOKEN", "")
 	tools.EnvToString(&cfg.RedisAddr, "WORLD_TIDE_REDIS_ADDR", "")
 	tools.EnvToString(&cfg.RedisPassword, "WORLD_TIDE_REDIS_PASSWORD", "")
+	if cfg.TelegramToken == "" || cfg.WorldTideApiKey == "" {
+		return nil, errors.Newf("Error with getting env variables")
+	}
 	return &cfg, nil
 }
