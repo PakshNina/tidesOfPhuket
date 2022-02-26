@@ -40,6 +40,6 @@ jobs:
           WORLD_TIDE_REDIS_ADDR: ${{ secrets.WORLD_TIDE_REDIS_ADDR }}
           WORLD_TIDE_REDIS_PASSWORD: ${{ secrets.WORLD_TIDE_REDIS_PASSWORD}}
         run: |
-          echo ${ WORLD_TIDE_TELEGRAM_TOKEN }
+          printenv WORLD_TIDE_TELEGRAM_TOKEN
           docker-compose build
           docker-compose up -d
