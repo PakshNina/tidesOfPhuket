@@ -5,7 +5,6 @@ import (
 	"tidesOfPhuket/internal/tools"
 )
 
-
 type Config struct {
 	WorldTideApiKey string
 	WorldTideUrl    string

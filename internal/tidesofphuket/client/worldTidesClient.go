@@ -13,7 +13,7 @@ import (
 )
 
 type TidesExtreme struct {
-	Date     int64  `json:"dt"`
+	Date     int64   `json:"dt"`
 	Height   float64 `json:"height"`
 	TideType string  `json:"type"`
 }

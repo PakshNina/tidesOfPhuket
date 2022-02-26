@@ -14,3 +14,7 @@ gen-mock:
 	mockgen -source=internal/redis/redis.go -destination=internal/tools/testing/redis/mock_redis.go
 	mockgen -source=internal/tidesofphuket/client/worldTidesClient.go -destination=internal/tools/testing/client/mock_client.go
 
+test: ## Test the application localy.
+	@echo "Testing application:"
+	@CGO_ENABLED=1 go test ./... -race -count=1 -cover -coverprofile=coverage.txt && go tool cover -func=coverage.txt | tail -n1 | awk '{print "Total test coverage: " $$3}'
+	@rm coverage.txt

@@ -13,10 +13,10 @@ import (
 
 const (
 	PatongCommand = "/patong"
-	MaiKao = "/maikao"
-	Aonang = "/aonang"
-	High = "High"
-	Low = "Low"
+	MaiKao        = "/maikao"
+	Aonang        = "/aonang"
+	High          = "High"
+	Low           = "Low"
 )
 
 func RunService(bot *telebot.BotAPI, redisRepo redis.Redis, client c.WorldTidesClient) error {
@@ -32,7 +32,7 @@ func RunService(bot *telebot.BotAPI, redisRepo redis.Redis, client c.WorldTidesC
 			if coords != nil {
 				result := make(chan string)
 				go getTidesInfo(command, coords, result, client, redisRepo)
-				replyMessage = <- result
+				replyMessage = <-result
 			} else {
 				replyMessage = "Hello! Please choose beach to see tides times. Available locations: /patong, /maikao, /aonang"
 			}
