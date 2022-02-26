@@ -25,8 +25,7 @@ type Client struct {
 
 func NewClient(cfg *config.Config) *Client {
 	opt := r.Options{
-		Addr:               "localhost:6379",
-		//Password:           cfg.RedisPassword,
+		Addr:               cfg.RedisAddr,
 		DB:                 1,
 	}
 	c := r.NewClient(&opt)

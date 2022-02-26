@@ -12,22 +12,22 @@ import (
 )
 
 func main() {
-	cfg, err := config.NewTidesOfPhuketConfig()
-	if err != nil {
-		log.Fatal("Error")
+	cfg, errCfg := config.NewTidesOfPhuketConfig()
+	if errCfg != nil {
+		log.Fatalf("Error with config: %v", errCfg)
 	}
-	r := redis.NewClient(cfg)
+	redisClient := redis.NewClient(cfg)
 	conn := client.Connection{
 		Url:    cfg.WorldTideUrl,
 		ApiKey: cfg.WorldTideApiKey,
 	}
-	c := client.NewWorldTidesClient(conn)
-	bot, err := telebot.NewBotAPI(cfg.TelegramToken)
-	if err != nil {
-		log.Fatalf("Error with new telegram bot: %v", err)
+	tidesClient := client.NewWorldTidesClient(conn)
+	bot, errBot := telebot.NewBotAPI(cfg.TelegramToken)
+	if errBot != nil {
+		log.Fatalf("Error with getting telegram bot: %v", errBot)
 	}
-	serviceError := service.RunService(bot, r, c)
-	if serviceError != nil {
-		log.Fatal("Error")
+	errService := service.RunService(bot, redisClient, tidesClient)
+	if errService != nil {
+		log.Fatalf("Error with service: %v", errService)
 	}
 }
