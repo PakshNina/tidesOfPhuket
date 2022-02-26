@@ -27,6 +27,7 @@ func main() {
 	log.Printf("Successfully got tides client")
 	bot, errBot := telebot.NewBotAPI(cfg.TelegramToken)
 	if errBot != nil {
+		log.Printf("Token: %v", cfg.TelegramToken)
 		log.Fatalf("Error with getting telegram bot: %v", errBot)
 	}
 	log.Printf("Successfully got telegram bot")
