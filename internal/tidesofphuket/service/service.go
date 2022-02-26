@@ -58,7 +58,7 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 			arrToday, errTides = c.GetExtremes(today, coords.Lat, coords.Lon)
 			if errTides != nil {
 				log.Printf("Err with getting info: %v", errTides)
-				result <- fmt.Sprintf("Service currently is not available. Please try later: %v", errTides)
+				result <- "Service currently is not available. Please try later"
 				return
 			}
 			errRedis := redisRepo.SaveTideInfo(beach, arrToday)
@@ -69,7 +69,7 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 			}
 		} else {
 			log.Printf("Err with getting info from redis: %v", errTides)
-			result <- fmt.Sprintf("Service currently is not available. Please try later: %v", errTides)
+			result <- "Service currently is not available. Please try later"
 			return
 		}
 	}
