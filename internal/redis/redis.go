@@ -25,8 +25,8 @@ type Client struct {
 
 func NewClient(cfg *config.Config) *Client {
 	opt := r.Options{
-		Addr:               cfg.RedisAddr,
-		DB:                 1,
+		Addr: cfg.RedisAddr,
+		DB:   1,
 	}
 	c := r.NewClient(&opt)
 	return &Client{redis: c}

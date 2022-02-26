@@ -1,0 +1,12 @@
+name: TEST
+
+on: [push]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run test
+        run: go test -v ./...
