@@ -33,6 +33,7 @@ jobs:
           WORLD_TIDE_TELEGRAM_TOKEN: ${{ secrets.WORLD_TIDE_TELEGRAM_TOKEN }}
           WORLD_TIDE_REDIS_ADDR: ${{ secrets.WORLD_TIDE_REDIS_ADDR }}
           WORLD_TIDE_REDIS_PASSWORD: ${{ secrets.WORLD_TIDE_REDIS_PASSWORD}}
+        if: github.ref == 'refs/heads/main'
         run: |
           docker-compose build
           docker-compose up -d
