@@ -9,10 +9,10 @@ services:
     expose:
       - 6379
     environment:
-      WORLD_TIDE_REDIS_ADDR: ${{ secrets.WORLD_TIDE_REDIS_ADDR }}
-      WORLD_TIDE_URL: ${{ secrets.WORLD_TIDE_URL }}
-      WORLD_TIDE_API_KEY: ${{ secrets.WORLD_TIDE_API_KEY }}
-      WORLD_TIDE_TELEGRAM_TOKEN: ${{ secrets.WORLD_TIDE_TELEGRAM_TOKEN }}
+      WORLD_TIDE_REDIS_ADDR: ${ WORLD_TIDE_REDIS_ADDR }
+      WORLD_TIDE_URL: ${ WORLD_TIDE_URL }
+      WORLD_TIDE_API_KEY: ${ WORLD_TIDE_API_KEY }
+      WORLD_TIDE_TELEGRAM_TOKEN: ${ WORLD_TIDE_TELEGRAM_TOKEN }
 
   go:
     build:
