@@ -47,7 +47,7 @@ func RunService(bot *telebot.BotAPI, redisRepo redis.Redis, client c.WorldTidesC
 	return nil
 }
 
-func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan string, c c.WorldTidesClient, redisRepo redis.Redis) {
+func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan string, client c.WorldTidesClient, redisRepo redis.Redis) {
 	loc, _ := time.LoadLocation("Asia/Bangkok")
 	now := time.Now().In(loc)
 	today := now.Format("2006-01-02")
@@ -55,7 +55,7 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 	if errTides != nil {
 		if errTides == redis.ErrKeyDoesNotExistsInRedis {
 			log.Printf("Key was not found in redis")
-			arrToday, errTides = c.GetExtremes(today, coords.Lat, coords.Lon)
+			arrToday, errTides = client.GetExtremes(today, coords.Lat, coords.Lon)
 			if errTides != nil {
 				log.Printf("Err with getting info: %v", errTides)
 				result <- "Service currently is not available. Please try later"
@@ -76,19 +76,28 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 	highTides := ""
 	lowTides := ""
 	count := 0
+	var latestTide *c.TidesExtreme
 	for _, v := range arrToday.Extremes {
-		if count < 6 {
-			dt := time.Unix(v.Date, 0).UTC().In(loc).Format("02.01 15:04")
+		dt := time.Unix(v.Date, 0).UTC().In(loc)
+		if dt.Before(time.Now()) {
+			latestTide = &v
+		}
+		if count < 4 && dt.After(time.Now()) {
+			dtString := dt.Format("02.01 15:04")
 			switch v.TideType {
 			case High:
-				highTides = fmt.Sprintf("%s%s, maximum height %v\n", highTides, dt, v.Height)
+				highTides = fmt.Sprintf("%s%s, maximum height %v\n", highTides, dtString, v.Height)
 			case Low:
-				lowTides = fmt.Sprintf("%s%s, minumum height %v\n", lowTides, dt, v.Height)
+				lowTides = fmt.Sprintf("%s%s, minumum height %v\n", lowTides, dtString, v.Height)
 			}
 			count += 1
 		}
 	}
-	result <- fmt.Sprintf("Now it is %s (Bangkok time). Latest tides on %s\n\nHigh:\n%s\nLow:\n%s", now.Format("15:04"), coords.Beach, highTides, lowTides)
+	var lastTideInfo string
+	if latestTide != nil {
+		lastTideInfo = fmt.Sprintf("Last tide was %s, height %v on %s. ", latestTide.TideType, latestTide.Height, time.Unix(latestTide.Date, 0).UTC().In(loc).Format("02.01 15:04"))
+	}
+	result <- fmt.Sprintf("Now it is %s (Bangkok time). %sUpcoming tides on %s\n\nHigh:\n%s\nLow:\n%s", now.Format("15:04"), lastTideInfo, coords.Beach, highTides, lowTides)
 	return
 }
 

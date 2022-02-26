@@ -48,7 +48,7 @@ func TestGetTidesInfo(t *testing.T) {
 	go getTidesInfo(PatongCommand, coords, result, client, redis)
 	var replyMessage string
 	replyMessage = <- result
-	reply := "Now its 20:04 (Bangkok time). Latest tides on Patong/Karon/Kata\n\nHigh:\n02.01 19:04, maximum height 1.0005\n\nLow:\n02.01 19:03, minumum height 1.0005\n"
+	reply := "Now it is 20:04 (Bangkok time). Last tide was Low, height 1.0005 on 02.01 19:03. Upcoming tides on Patong/Karon/Kata\n\nHigh:\n\nLow:\n"
 	assert.NotNil(t, replyMessage)
 	assert.Equal(t, reply, replyMessage)
 }
