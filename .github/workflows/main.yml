@@ -17,4 +17,4 @@ jobs:
           WORLD_TIDE_REDIS_PASSWORD: ${{ secrets.WORLD_TIDE_REDIS_PASSWORD}}
         run: |
           docker-compose build
-          docker-compose up -d
+          docker-compose up --force-recreate -d

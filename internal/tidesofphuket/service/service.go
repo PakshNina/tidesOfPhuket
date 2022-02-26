@@ -95,9 +95,9 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 	}
 	var lastTideInfo string
 	if latestTide != nil {
-		lastTideInfo = fmt.Sprintf("Last tide was %s, height %v on %s. ", latestTide.TideType, latestTide.Height, time.Unix(latestTide.Date, 0).UTC().In(loc).Format("02.01 15:04"))
+		lastTideInfo = fmt.Sprintf("Last tide was %s, %v meters %s.\n\n", time.Unix(latestTide.Date, 0).UTC().In(loc).Format("02.01 15:04"), latestTide.Height, latestTide.TideType)
 	}
-	result <- fmt.Sprintf("Now it is %s (Bangkok time). %sUpcoming tides on %s\n\nHigh:\n%s\nLow:\n%s", now.Format("15:04"), lastTideInfo, coords.Beach, highTides, lowTides)
+	result <- fmt.Sprintf("Now it is %s (Bangkok time). %sUpcoming tides on %s\n\nHigh:\n%s\nLow:\n%s", now.Format("15:04"), lastTideInfo, beach, highTides, lowTides)
 	return
 }
 
