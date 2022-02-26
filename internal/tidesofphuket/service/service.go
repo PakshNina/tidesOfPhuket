@@ -34,7 +34,7 @@ func RunService(bot *telebot.BotAPI, redisRepo redis.Redis, client c.WorldTidesC
 				go getTidesInfo(command, coords, result, client, redisRepo)
 				replyMessage = <- result
 			} else {
-				replyMessage = "Hello! Please choose command to see tides times. Available commands: /patong, /maikao, /aonang"
+				replyMessage = "Hello! Please choose beach to see tides times. Available locations: /patong, /maikao, /aonang"
 			}
 			msg := telebot.NewMessage(update.Message.Chat.ID, replyMessage)
 			msg.ReplyToMessageID = update.Message.MessageID
