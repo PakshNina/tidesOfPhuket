@@ -6,8 +6,8 @@ services:
     image: redis:3.2-alpine
     container_name: redis
     hostname: redis
-    ports:
-      - "6379:6379"
+    expose:
+      - 6379
 
   go:
     build:
@@ -18,3 +18,4 @@ services:
       - ./bin:/app
     depends_on:
       - redis
+    env_file: .env
