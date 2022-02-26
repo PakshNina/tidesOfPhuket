@@ -30,7 +30,7 @@ jobs:
         env:
           TEST: "test"
           WORLD_TIDE_API_KEY: ${{ secrets.WORLD_TIDE_API_KEY }}
-        run: echo ${{ secrets.WORLD_TIDE_API_KEY }}
+        run: echo ${ secrets.WORLD_TIDE_API_KEY }
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
