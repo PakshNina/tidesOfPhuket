@@ -7,8 +7,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,6 +26,7 @@ jobs:
       - uses: actions/checkout@main
 
       # Runs a set of commands using the runners shell
+      if: github.ref == 'refs/heads/main'
       - name: Run a multi-line script
         env:
           WORLD_TIDE_API_KEY: ${{ secrets.WORLD_TIDE_API_KEY }}
@@ -33,7 +34,6 @@ jobs:
           WORLD_TIDE_TELEGRAM_TOKEN: ${{ secrets.WORLD_TIDE_TELEGRAM_TOKEN }}
           WORLD_TIDE_REDIS_ADDR: ${{ secrets.WORLD_TIDE_REDIS_ADDR }}
           WORLD_TIDE_REDIS_PASSWORD: ${{ secrets.WORLD_TIDE_REDIS_PASSWORD}}
-        if: github.ref == 'refs/heads/main'
         run: |
           docker-compose build
           docker-compose up -d
