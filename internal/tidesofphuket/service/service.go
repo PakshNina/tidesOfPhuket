@@ -61,12 +61,10 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 				result <- "Service currently is not available. Please try later"
 				return
 			}
-			errRedis := redisRepo.SaveTideInfo(beach, arrToday)
-			if errRedis != nil {
-				log.Printf("Err with saving to redis: %v", errRedis)
-				result <- fmt.Sprintf("Service currently is not available. Please try later: %v", errRedis)
-				return
-			}
+			go func() {
+				errRedis := redisRepo.SaveTideInfo(beach, arrToday)
+				log.Printf("Error with saving in redis: %v", errRedis)
+			} ()
 		} else {
 			log.Printf("Err with getting info from redis: %v", errTides)
 			result <- "Service currently is not available. Please try later"
