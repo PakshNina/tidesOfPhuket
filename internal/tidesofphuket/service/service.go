@@ -74,12 +74,8 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 	highTides := ""
 	lowTides := ""
 	count := 0
-	var latestTide *c.TidesExtreme
 	for _, v := range arrToday.Extremes {
 		dt := time.Unix(v.Date, 0).UTC().In(loc)
-		if dt.Before(time.Now()) {
-			latestTide = &v
-		}
 		if count < 4 && dt.After(time.Now()) {
 			dtString := dt.Format("02.01 15:04")
 			switch v.TideType {
@@ -91,11 +87,7 @@ func getTidesInfo(beach string, coords *coordinates.Coordinates, result chan str
 			count += 1
 		}
 	}
-	var lastTideInfo string
-	if latestTide != nil {
-		lastTideInfo = fmt.Sprintf("Last tide was %s, %v meters %s.\n\n", time.Unix(latestTide.Date, 0).UTC().In(loc).Format("02.01 15:04"), latestTide.Height, latestTide.TideType)
-	}
-	result <- fmt.Sprintf("Now it is %s (Bangkok time). %sUpcoming tides on %s\n\nHigh:\n%s\nLow:\n%s", now.Format("15:04"), lastTideInfo, beach, highTides, lowTides)
+	result <- fmt.Sprintf("Now it is %s (Bangkok time). Upcoming tides on %s\n\nHigh:\n%s\nLow:\n%s", now.Format("15:04"), beach, highTides, lowTides)
 	return
 }
 
